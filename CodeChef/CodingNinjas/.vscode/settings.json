@@ -1,0 +1,11 @@
+{
+    "C_Cpp.errorSquiggles": "Disabled",
+    "files.associations": {
+        "ios": "cpp",
+        "iostream": "cpp",
+        "unordered_set": "cpp",
+        "utility": "cpp",
+        "ostream": "cpp",
+        "algorithm": "cpp"
+    }
+}
