@@ -63,11 +63,19 @@ int main()
             graph[v-1].pb(u-1);
         }
         vector<pair<bool,int> >visited(n,make_pair(false,-1));
+        vector<pair<int,int> >sold(m);
         FOR(i,0,m)
         {
             ll k,s;
             cin>>k>>s;
             k--;
+            sold.pb(make_pair(s,k));
+        }
+        sort(sold.rbegin(),sold.rend());
+        FOR(i,0,m)
+        {
+            ll k=sold[i].second;
+            ll s=sold[i].first;
             if(visited[k].first==true)
             {
                 flag=0;
@@ -84,20 +92,20 @@ int main()
         }
         if(flag)
         {
-            FOR(i,0,n)
-            {
-                if(visited[i].first==false)
-                {
-                    flag=0;
-                    break;
-                }
-            }
-            if(flag)
+            // FOR(i,0,n)
+            // {
+            //     if(visited[i].first==false)
+            //     {
+            //         flag=0;
+            //         break;
+            //     }
+            // }
+            // if(flag)
                 cout<<"Yes\n";
-            else
-            {
-                cout<<"No\n";
-            }
+            // else
+            // {
+            //     cout<<"No\n";
+            // }
         }
         else
         {

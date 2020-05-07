@@ -9,7 +9,7 @@ def makeTree(arr,tree,tn):
         tree=makeTree(arr,tree,2*tn)
         tree=makeTree(arr,tree,2*tn+1)
         return tree
-n=20 #No of max nodes
+n=50 #No of max nodes
 limit=1000 #Largest element limit
 #f=open("tree.txt","w")
 arr=[0]
