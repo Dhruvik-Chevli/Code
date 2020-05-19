@@ -69,6 +69,22 @@ bool isPrime(int n)
           return false;
     return true; 
 }
+ll power(ll x, ll y) 
+{ 
+    ll res = 1;     // Initialize result 
+   
+    while (y > 0) 
+    { 
+        // If y is odd, multiply x with result 
+        if (y & 1) 
+            res = res*x; 
+   
+        // y must be even now 
+        y = y>>1; // y = y/2 
+        x = x*x;  // Change x to x^2 
+    } 
+    return res; 
+}
 ll gcd(ll m,ll n)
 {
     if(n==0)
@@ -77,74 +93,88 @@ ll gcd(ll m,ll n)
     }
     return gcd(n,m%n);
 }
+ll findlcm(vector<ll> arr, ll n) 
+{ 
+    // Initialize result 
+    ll ans = arr[0]; 
+  
+    // ans contains LCM of arr[0], ..arr[i] 
+    // after i'th iteration, 
+    FOR(i,1,n)
+        ans = (((arr[i] * ans)) / 
+                (gcd(arr[i], ans))); 
+  
+    return ans; 
+} 
 int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    //vector<vector<ll> >&
-    ll g;
-    cin>>g;
-    vector<ll>coins(g,0);
-    FOR(i,0,g)
+    ll n;
+    cin>>n;
+    vector<ll>coins(n);
+    FOR(i,0,n)
     {
         cin>>coins[i];
     }
-    sort(coins.begin(),coins.end());
-    vector<bool>coin(55,false);
-    FOR(i,0,g)
+    vector<vector<ll> >powerSet;
+    FOR(i,0,power(2,n))
     {
-        bool flag=true;
-        for(int j=2;j<coins[i];j++)
+        vector<ll>v;
+        ll k=i;
+        ll c=0;
+        while(k)
         {
-            if(coins[i]%j==0 and coin[j]==true)
+            if(k&1)
             {
-                flag=false;
-                break;
+                v.pb(coins[c]);
             }
+            c+=1;
+            k>>=1;
         }
-        if(flag)
-            coin[coins[i]]=true;
+        powerSet.pb(v);
     }
-    // FOR(i,0,55)
+    // FOR(i,0,powerSet.size())
     // {
-    //     cout<<coin[i]<<" ";
+        // FOR(j,0,powerSet[i].size())
+        // {
+        //     cout<<powerSet[i][j]<<" ";
+        // }
+        // cout<<endl;
     // }
-    // cout<<"\n";
+    vector<pair<ll,ll> >inc;
+    FOR(i,0,powerSet.size())
+    {
+        if(powerSet[i].size()>0)
+        {
+            ll u=findlcm(powerSet[i],powerSet[i].size());
+            inc.pb(make_pair(u,powerSet[i].size()));
+        }
+    }
+    ll ans=0;
     ll v;
     cin>>v;
-    FOR(i,0,v)
+    while(v--)
     {
+        ans=0;
         ll a,b;
         cin>>a>>b;
-        ll ans=0;
-        FOR(j,0,55)
+        FOR(i,0,inc.size())
         {
-            if(coin[j]==false)
+            ll n=inc[i].second;
+            if(n%2)
             {
-                continue;
-            }
-            if(a%j==0)
-            {
-                ans+=((b/j)-(a/j)+1);
+                //ll u=findlcm(powerSet[i],n);
+                // cout<<u<<"\n";
+                ll u=inc[i].first;
+                ans+=((b/u)-((a-1)/u));
             }
             else
             {
-                ans+=((b/j)-(a/j));
-            }
-            FOR(k,1,j)
-            {
-                if(coin[k]==false)
-                    continue;
-                ll u=gcd(k,j);
-                u=(k*j)/u;
-                if(a%u==0)
-                {
-                    ans-=((b/u)-(a/u)+1);
-                }
-                else
-                {
-                    ans-=((b/u)-(a/u));
-                }
+                //ll u=findlcm(powerSet[i],n);
+                // cout<<u<<"\n";
+                ll u=inc[i].first;
+                ans-=((b/u)-(a-1)/u);
             }
         }
         cout<<ans<<"\n";

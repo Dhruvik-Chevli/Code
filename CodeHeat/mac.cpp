@@ -65,19 +65,21 @@ int findMinimumAdjacentSwaps(int arr[], int N)
 // Driver Code 
 int main() 
 { 
-    int t;
+    //freopen("input.txt","r",stdin);
+    freopen("output.txt","w",stdout);
+    int t=1;
     cin>>t;
     while(t--)
     {
         int p;
         cin>>p;
-        p<<=1;
-        int v[p];
-        FOR(i,0,p)
+        //p<<=1;
+        int v[2*p];
+        FOR(i,0,2*p)
         {
             cin>>v[i];
         }
-        p>>=1;
+        //p>>=1;
         int o=findMinimumAdjacentSwaps(v,p);
         
         unordered_map<int,int>f;
