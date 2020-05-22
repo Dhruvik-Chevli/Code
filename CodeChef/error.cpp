@@ -73,65 +73,47 @@ int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll n,x,y;
-    cin>>n>>x>>y;
-    string s;
-    cin>>s;
-    ll d=0;
-    FOR(i,0,n)
+    ll t;
+    cin>>t;
+    while(t--)
     {
-        if(s[i]=='1')
+        string s;
+        cin>>s;
+        bool flag=false;
+        FOR(i,0,s.size()-2)
         {
-            d=1;
-            break;
-        }
-    }
-    if(d==0)
-    {
-        cout<<s<<"\n";
-        return 0;
-    }
-    // FOR(i,0,n)
-	vector<bool>nn(n,true);
-    FOR(i,0,n)
-    {
-		if(nn[i]==false)
-			continue;
-		// if(nn.count(i)<=0)
-		// {
-		// 	continue;
-		// }
-        if(y<=0)
-            break;
-        if(s[i]=='1')
-        {
-            continue;
-        }
-        ll j=i+x;
-        ll d=y-1;
-        int f=0;
-        while(d>0 and j<n)
-        {
-            if(j<n and s[j]=='1')
+            if(s[i]=='1')
             {
-                f=1;
-                break;
+                if(s[i+1]=='0')
+                {
+                    if(s[i+2]=='1')
+                    {
+                        flag=true;
+                        break;
+                    }
+                }
             }
-            j+=x;
-            d-=1;
+            else
+            {
+                if(s[i+1]=='1')
+                {
+                    if(s[i+2]=='0')
+                    {
+                        flag=true;
+                        break;
+                    }
+                }
+            }
         }
-        if(f)
+        if(flag)
         {
-            swap(s[i],s[j]);
-            y-=(j-i)/x;
+            cout<<"Good\n";
         }
-		else{
-			for(ll k=i;k<n;k+=x)
-			{
-				nn[k]=true;
-			}
-		}
+        else
+        {
+            cout<<"Bad\n";
+        }
+        
     }
-    cout<<s<<"\n";
     return 0;
 }

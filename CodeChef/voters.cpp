@@ -73,65 +73,39 @@ int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll n,x,y;
-    cin>>n>>x>>y;
-    string s;
-    cin>>s;
-    ll d=0;
-    FOR(i,0,n)
+    vector<ll>v(50001,0);
+    ll n1,n2,n3;
+    cin>>n1>>n2>>n3;
+    FOR(i,0,n1)
     {
-        if(s[i]=='1')
+        ll k;
+        cin>>k;
+        v[k]+=1;
+    }
+    FOR(i,0,n2)
+    {
+        ll k;
+        cin>>k;
+        v[k]+=1;
+    }
+    FOR(i,0,n3)
+    {
+        ll k;
+        cin>>k;
+        v[k]+=1;
+    }
+    vector<ll>ans;
+    FOR(i,0,50001)
+    {
+        if(v[i]>1)
         {
-            d=1;
-            break;
+            ans.pb(i);
         }
     }
-    if(d==0)
+    cout<<ans.size()<<"\n";
+    FOR(i,0,ans.size())
     {
-        cout<<s<<"\n";
-        return 0;
+        cout<<ans[i]<<"\n";
     }
-    // FOR(i,0,n)
-	vector<bool>nn(n,true);
-    FOR(i,0,n)
-    {
-		if(nn[i]==false)
-			continue;
-		// if(nn.count(i)<=0)
-		// {
-		// 	continue;
-		// }
-        if(y<=0)
-            break;
-        if(s[i]=='1')
-        {
-            continue;
-        }
-        ll j=i+x;
-        ll d=y-1;
-        int f=0;
-        while(d>0 and j<n)
-        {
-            if(j<n and s[j]=='1')
-            {
-                f=1;
-                break;
-            }
-            j+=x;
-            d-=1;
-        }
-        if(f)
-        {
-            swap(s[i],s[j]);
-            y-=(j-i)/x;
-        }
-		else{
-			for(ll k=i;k<n;k+=x)
-			{
-				nn[k]=true;
-			}
-		}
-    }
-    cout<<s<<"\n";
     return 0;
 }

@@ -73,65 +73,18 @@ int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll n,x,y;
-    cin>>n>>x>>y;
-    string s;
-    cin>>s;
-    ll d=0;
-    FOR(i,0,n)
+    ll t;
+    cin>>t;
+    while(t--)
     {
-        if(s[i]=='1')
+        ll n,k;
+        cin>>n>>k;
+        if(k==0)
         {
-            d=1;
-            break;
-        }
-    }
-    if(d==0)
-    {
-        cout<<s<<"\n";
-        return 0;
-    }
-    // FOR(i,0,n)
-	vector<bool>nn(n,true);
-    FOR(i,0,n)
-    {
-		if(nn[i]==false)
-			continue;
-		// if(nn.count(i)<=0)
-		// {
-		// 	continue;
-		// }
-        if(y<=0)
-            break;
-        if(s[i]=='1')
-        {
+            cout<<0<<" "<<n<<"\n";
             continue;
         }
-        ll j=i+x;
-        ll d=y-1;
-        int f=0;
-        while(d>0 and j<n)
-        {
-            if(j<n and s[j]=='1')
-            {
-                f=1;
-                break;
-            }
-            j+=x;
-            d-=1;
-        }
-        if(f)
-        {
-            swap(s[i],s[j]);
-            y-=(j-i)/x;
-        }
-		else{
-			for(ll k=i;k<n;k+=x)
-			{
-				nn[k]=true;
-			}
-		}
+        cout<<n/k<<" "<<n%k<<"\n";
     }
-    cout<<s<<"\n";
     return 0;
 }

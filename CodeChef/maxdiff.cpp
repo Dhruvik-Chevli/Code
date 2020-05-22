@@ -7,6 +7,7 @@
 #include<stack>
 #include<queue>
 #include<unordered_map>
+#include<numeric>
 using namespace std;
 typedef long long int ll;
 #define EPS 1e-9
@@ -73,65 +74,39 @@ int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll n,x,y;
-    cin>>n>>x>>y;
-    string s;
-    cin>>s;
-    ll d=0;
-    FOR(i,0,n)
+    ll t;
+    cin>>t;
+    while(t--)
     {
-        if(s[i]=='1')
+        ll n,k;
+        cin>>n>>k;
+        vector<ll>v(n);
+        FOR(i,0,n)
         {
-            d=1;
-            break;
+            cin>>v[i];
         }
+        sort(v.begin(),v.end());
+        ll a=0;
+        ll sum=0;
+        FOR(i,0,k)
+        {
+            a+=v[i];
+            sum+=v[i];
+        }
+        //ll b=0;
+        FOR(i,k,n)
+        {
+            //b+=v[i];
+            sum+=v[i];
+        }
+        ll c=0;
+        FOR(i,n-k,n)
+        {
+            c+=v[i];
+        }
+        //cout<<a<<" "<<b<<"\n";
+        ll ans=max(abs(a-(sum-a)),abs(c-(sum-c)));
+        cout<<ans<<"\n";
     }
-    if(d==0)
-    {
-        cout<<s<<"\n";
-        return 0;
-    }
-    // FOR(i,0,n)
-	vector<bool>nn(n,true);
-    FOR(i,0,n)
-    {
-		if(nn[i]==false)
-			continue;
-		// if(nn.count(i)<=0)
-		// {
-		// 	continue;
-		// }
-        if(y<=0)
-            break;
-        if(s[i]=='1')
-        {
-            continue;
-        }
-        ll j=i+x;
-        ll d=y-1;
-        int f=0;
-        while(d>0 and j<n)
-        {
-            if(j<n and s[j]=='1')
-            {
-                f=1;
-                break;
-            }
-            j+=x;
-            d-=1;
-        }
-        if(f)
-        {
-            swap(s[i],s[j]);
-            y-=(j-i)/x;
-        }
-		else{
-			for(ll k=i;k<n;k+=x)
-			{
-				nn[k]=true;
-			}
-		}
-    }
-    cout<<s<<"\n";
     return 0;
 }

@@ -73,65 +73,34 @@ int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll n,x,y;
-    cin>>n>>x>>y;
-    string s;
-    cin>>s;
-    ll d=0;
-    FOR(i,0,n)
+    ll t;
+    cin>>t;
+    while(t--)
     {
-        if(s[i]=='1')
+        ll n;
+        cin>>n;
+        string s;
+        cin>>s;
+        vector<bool>v(n,false);
+        FOR(i,0,n)
         {
-            d=1;
-            break;
-        }
-    }
-    if(d==0)
-    {
-        cout<<s<<"\n";
-        return 0;
-    }
-    // FOR(i,0,n)
-	vector<bool>nn(n,true);
-    FOR(i,0,n)
-    {
-		if(nn[i]==false)
-			continue;
-		// if(nn.count(i)<=0)
-		// {
-		// 	continue;
-		// }
-        if(y<=0)
-            break;
-        if(s[i]=='1')
-        {
-            continue;
-        }
-        ll j=i+x;
-        ll d=y-1;
-        int f=0;
-        while(d>0 and j<n)
-        {
-            if(j<n and s[j]=='1')
+            if(s[i]=='1')
             {
-                f=1;
-                break;
+                v[i]=true;
+                if(i!=n-1) v[i+1]=true;
+                if(i!=0) v[i-1]=true;
             }
-            j+=x;
-            d-=1;
         }
-        if(f)
+        
+        ll count=0;
+        FOR(i,0,n)
         {
-            swap(s[i],s[j]);
-            y-=(j-i)/x;
+            if(!v[i])
+            {
+                count+=1;
+            }
         }
-		else{
-			for(ll k=i;k<n;k+=x)
-			{
-				nn[k]=true;
-			}
-		}
+        cout<<count<<"\n";
     }
-    cout<<s<<"\n";
     return 0;
 }
