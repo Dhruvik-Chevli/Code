@@ -73,6 +73,28 @@ int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    
+    ll t;
+    cin>>t;
+    while(t--)
+    {
+        ll n,m;
+        cin>>n>>m;
+        if(n%2==0 and m%2==0)
+        {
+            cout<<n/2*m<<"\n";
+        }
+        else if(n%2==0)
+        {
+            cout<<(n/2)*m<<"\n";
+        }
+        else if(m%2==0)
+        {
+            cout<<(m/2)*n<<"\n";
+        }
+        else
+        {
+            cout<<(n*m/2+1)<<"\n";
+        }
+    }
     return 0;
 }

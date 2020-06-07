@@ -73,6 +73,44 @@ int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    
+    ll n;
+    cin>>n;
+    vector<ll>a(n+1,-1);
+    vector<ll>b(n+1,-1);
+    FOR(i,0,n)
+    {
+        ll k;
+        cin>>k;
+        a[k]=i;
+    }
+    FOR(i,0,n)
+    {
+        ll k;
+        cin>>k;
+        b[k]=i;
+    }
+    vector<ll>count(1000000,0);
+    FOR(i,1,n+1)
+    {
+        if(a[i]<b[i])
+        {
+            count[n-b[i]+a[i]]+=1;
+        }
+        else
+        {
+            count[a[i]-b[i]]+=1;
+        }
+    }
+    ll ma=0;
+    ll coun=0;
+    FOR(i,0,1000000)
+    {
+        if(count[i]>coun)
+        {
+            coun=count[i];
+            ma=i;
+        }
+    }
+    cout<<coun<<"\n";
     return 0;
 }

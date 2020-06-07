@@ -73,6 +73,49 @@ int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    
+    ll t;
+    cin>>t;
+    while(t--)
+    {
+        ll n;
+        cin>>n;
+        vector<ll>v(n,0);
+        vector<bool>m1(1000000,false);
+        FOR(i,0,n)
+        {
+            cin>>v[i];
+            m1[v[i]]=true;
+        }
+        //vector<bool>m2(1000000,false);
+        ll ans=0;
+        bool flag=false;
+        FOR(i,1,1025)
+        {
+            bool flag1=true;
+            FOR(j,0,n)
+            {
+                ll k=v[j]^i;
+                if(m1[k])
+                {
+                    //m2[k]=true;
+                }
+                else
+                {
+                    flag1=false;
+                    break;
+                }
+            }
+            if(flag1==true)
+            {
+                flag=true;
+                cout<<i<<"\n";
+                break;
+            }
+        }
+        if(flag==false)
+        {
+            cout<<"-1\n";
+        }
+    }
     return 0;
 }

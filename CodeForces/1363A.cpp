@@ -73,6 +73,62 @@ int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    
+    ll t;
+    cin>>t;
+    while(t--)
+    {
+        ll n,x;
+        cin>>n>>x;
+        ll o=0; ll e=0;
+        FOR(i,0,n)
+        {
+            ll k;
+            cin>>k;
+            if(k%2)
+            {
+                o+=1;
+            }
+            else
+            {
+                e+=1;
+            }
+        }
+        if(o==0)
+        {
+            cout<<"NO\n";
+            continue;
+        }
+        if(x<=e)
+        {
+            cout<<"YES\n";
+        }
+        else if(x>e)
+        {
+            x-=e;
+            if(x%2)
+            {
+                cout<<"YES\n";
+            }
+            else
+            {
+                //cout<<"****";
+                if(e>0)
+                    x+=1;
+                else
+                {
+                    cout<<"NO\n";
+                    continue;
+                }
+                if(o>=x)
+                {
+                    cout<<"YES\n";
+                }
+                else
+                {
+                    cout<<"NO\n";
+                }
+            }
+        }
+    }
     return 0;
 }

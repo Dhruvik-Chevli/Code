@@ -73,6 +73,53 @@ int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    
+    ll t;
+    cin>>t;
+    while(t--)
+    {
+        ll n,m;
+        cin>>n>>m;
+        vector<vector<ll> >arr(n,vector<ll>(m,0));
+        vector<ll>row(n,0);
+        vector<ll>col(m,0);
+        FOR(i,0,n)
+        {
+            FOR(j,0,m)
+            {
+                ll k;
+                cin>>k;
+                arr[i][j]=k;
+                if(k==1)
+                {
+                    row[i]=1;
+                    col[j]=1;
+                }
+            }
+        }
+        ll count=0;
+        FOR(i,0,n)
+        {
+            FOR(j,0,m)
+            {
+                if(arr[i][j]==0)
+                {
+                    if(row[i]==0 and col[j]==0)
+                    {
+                        row[i]=1; col[j]=1;
+                        count+=1;
+                    }
+                }
+            }
+        }
+        if(count%2==1)
+        {
+            cout<<"Ashish\n";
+        }
+        else
+        {
+            cout<<"Vivek\n";
+        }
+        
+    }
     return 0;
 }

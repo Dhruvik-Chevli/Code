@@ -73,6 +73,50 @@ int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    
+    ll t;
+    cin>>t;
+    while(t--)
+    {
+        ll a,b;
+        cin>>a>>b;
+        if(a>b)
+        {
+            a=a^b;
+            b=a^b;
+            a=a^b;
+        }
+        if(b%a!=0)
+        {
+            cout<<"-1\n";
+        }
+        else
+        {
+            ll k=b/a;
+            ll count=0;
+            while(k!=1 and k%8==0)
+            {
+                k/=8;
+                count+=1;
+            }
+            while(k!=1 and k%4==0)
+            {
+                k/=4;
+                count+=1;
+            }
+            while(k!=1 and k%2==0)
+            {
+                k/=2;
+                count+=1;
+            }
+            if(k!=1)
+            {
+                cout<<"-1\n";
+            }
+            else
+            {
+                cout<<count<<"\n";
+            }
+        }
+    }
     return 0;
 }

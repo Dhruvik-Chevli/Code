@@ -73,6 +73,51 @@ int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    
+    ll t;
+    cin>>t;
+    while(t--)
+    {
+        ll n;
+        cin>>n;
+        vector<ll>v(n,0);
+        bool isSorted=true;
+        FOR(i,0,n)
+        {
+            cin>>v[i];
+            if(i>=1 and v[i]<v[i-1])
+            {
+                isSorted=false;
+            }
+        }
+        bool on=false, ze=false;
+        FOR(i,0,n)
+        {
+            ll k;
+            cin>>k;
+            if(k==0)
+            {
+                ze=true;
+            }
+            else
+                on=true;
+        }
+        if(on and ze)
+        {
+            cout<<"Yes\n";
+        }
+        else
+        {
+            if(isSorted)
+            {
+                cout<<"Yes\n";
+            }
+            else
+            {
+                cout<<"No\n";
+            }
+            
+        }
+        
+    }
     return 0;
 }

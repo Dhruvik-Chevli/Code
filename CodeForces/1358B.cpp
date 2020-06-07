@@ -73,6 +73,19 @@ int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    
+    ll t;
+    cin>>t;
+    while(t--)
+    {
+        ll n;
+        cin>>n;
+        vector<ll>v(n,0);
+        FOR(i,0,n)
+        {
+            cin>>v[i];
+        }
+        sort(v.begin(),v.end());
+        ll count=1;
+    }
     return 0;
 }
