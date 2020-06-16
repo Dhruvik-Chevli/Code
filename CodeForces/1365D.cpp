@@ -14,8 +14,8 @@ typedef long long int ll;
 #define FOR(i, a, b) for(ll i = a; i < b; i++)
 #define PI 3.1415926535897932384626433832795
 #define MOD 1000000007
-ll dx[4]={1,0,-1,0};
-ll dy[4]={0,1,0,-1};
+ll dx[4]={0,1,0,-1};
+ll dy[4]={1,0,-1,0};
 void DSUinit(vector<ll>&a,vector<ll>&size,ll n)
 {
     FOR(i,0,n)
@@ -49,51 +49,6 @@ void DSUunion(vector<ll>&a,vector<ll>&size, ll x,ll y)
     a[y]=x;
     size[x]+=size[y];
 }
-bool dfs(vector<string>&graph,vector<vector<bool> >&pos,ll si,ll sj,ll ei,ll ej,vector<vector<bool> >&visited)
-{
-    if(pos[si][sj])
-    {
-        return true;
-    }
-    if(si==ei and sj==ej)
-    {
-        pos[si][sj]=true;
-        return true;
-    }
-    else if(si>ei or sj>ej)
-    {
-     //   cout<<"*****"<<"\n";
-        return false;
-    }
-   // cout<<si<<" "<<sj<<" "<<ei<<" "<<ej<<"\n";
-    bool flag=false;
-    visited[si][sj]=true;
-    FOR(i,0,4)
-    {
-        ll x=si+dx[i];
-        ll y=sj+dy[i];
-       // cout<<x<<" "<<y<<"\n";
-        if(x>=0 and y>=0 and x<=ei and y<=ej and graph[x][y]!='#' and !visited[x][y])
-        {
-            bool ans=dfs(graph,pos,x,y,ei,ej,visited);
-            if(ans)
-            {
-                flag=true;
-            }
-        }
-        if(x>=0 and y>=0 and x<=ei and y<=ej and graph[x][y]!='#' and visited[x][y])
-        {
-            //bool ans=dfs(graph,pos,x,y,ei,ej,visited);
-            // 
-            flag=true;
-        }
-    }
-    if(flag)
-    {
-        pos[si][sj]=true;
-    }
-    return flag;
-}
 bool isPrime(int n) 
 {
     if (n <= 1)  return false; 
@@ -103,6 +58,34 @@ bool isPrime(int n)
         if (n%i == 0 || n%(i+2) == 0) 
           return false;
     return true; 
+}
+bool dfs(vector<string>&graph,ll i, ll j, ll ei, ll ej,vector<vector<bool> >&visited,vector<vector<bool> >&reachable)
+{
+    visited[i][j]=true;
+    if(i==ei and j==ej)
+    {
+        return true;
+    }
+    FOR(k,0,4)
+    {
+        ll x=i+dx[k];
+        ll y=j+dy[k];
+        if(x>=0 and x<=ei and y>=0 and y<=ej and graph[x][y]!='#' and !visited[x][y])
+        {
+            bool ans=dfs(graph,x,y,ei,ej,visited,reachable);
+            if(ans)
+            {
+                reachable[i][j]=true;
+                return true;
+            }
+        }
+        if(x>=0 and x<=ei and y>=0 and y<=ej and reachable[x][y])
+        {
+            reachable[i][j]=true;
+            return true;
+        }
+    }
+    return false;
 }
 int main()
 {
@@ -114,105 +97,107 @@ int main()
     {
         ll n,m;
         cin>>n>>m;
-        vector<string>s(n);
+        vector<string>v(n);
         FOR(i,0,n)
         {
-            string v;
-            cin>>v;
-            s[i]=v;
+            string s;
+            cin>>s;
+            v[i]=s;
         }
         bool flag=true;
+        bool g=false;
         FOR(i,0,n)
         {
             FOR(j,0,m)
             {
-                //cout<<"&&";
-                if(s[i][j]=='B')
+                if(v[i][j]=='G')
                 {
-                    if(i-1>=0)
-                    {
-                        if(s[i-1][j]!='G' and s[i-1][j]!='B')
-                            s[i-1][j]='#';
-                        else if(s[i-1][j]=='G')
-                        {
-                            flag=false;
-                        }
-                    }
-                    if(j-1>=0)
-                    {
-                        if(s[i][j-1]!='G' and s[i][j-1]!='B')
-                            s[i][j-1]='#';
-                        else if(s[i][j-1]=='G')
-                        {
-                            flag=false;
-                        }
-                    }
-                    if(i+1<n)
-                    {
-                        if(s[i+1][j]!='G' and s[i+1][j]!='B')
-                            s[i+1][j]='#';
-                        else if(s[i+1][j]=='G')
-                        {
-                            flag=false;
-                        }
-                    }
-                    if(j+1<m)
-                    {
-                        if(s[i][j+1]!='G' and s[i][j+1]!='B')
-                            s[i][j+1]='#';
-                        else if(s[i][j+1]=='G')
-                        {
-                            flag=false;
-                        }
-                    }
+                    g=true;
                 }
-            }
-            if(flag==false)
-            {
-                break;
-            }
-        }
-        if(flag==false)
-        {
-            cout<<"No\n";
-            continue;
-        }
-        // FOR(i,0,n)
-        // {
-        //     FOR(j,0,m)
-        //     {
-        //         cout<<s[i][j];
-        //     }
-        //     cout<<"\n";
-        // }
-        //cout<<"****\n";
-        vector<vector<bool> >pos(n,vector<bool>(m,false));
-        vector<vector<bool> >visited(n,vector<bool>(m,false));
-        FOR(i,0,n)
-        {
-            FOR(j,0,m)
-            {
-                if(s[i][j]=='G')
+                if(v[i][j]=='B')
                 {
-                    //cout<<i<<" "<<j<<"\n";
-                    bool ans=dfs(s,pos,i,j,n-1,m-1,visited);
-                    if(!ans)
-                        flag=false;
+                    FOR(k,0,4)
+                    {
+                        ll x=i+dx[k];
+                        ll y=j+dy[k];
+                        if(x>=0 and x<n and y>=0 and y<m and v[x][y]=='.')
+                        {
+                            v[x][y]='#';
+                        }
+                        if(x>=0 and x<n and y>=0 and y<m and v[x][y]=='G')
+                        {
+                            g=true;
+                            flag=false;
+                            break;
+                        }
+                    }
                 }
                 if(!flag)
+                {
                     break;
+                }
             }
             if(!flag)
             {
                 break;
             }
         }
-        if(flag)
-            cout<<"Yes\n";
+        vector<vector<bool> > reachable(n,vector<bool>(m,false));
+        if(flag and g and v[n-1][m-1]!='#')
+        {
+            FOR(i,0,n)
+            {
+                FOR(j,0,m)
+                {
+                    if(v[i][j]=='G')
+                    {
+                        vector<vector<bool> >visited(n,vector<bool>(m,false));
+                        if(reachable[i][j])
+                        {
+                            continue;
+                        }
+                        bool ans=dfs(v,i,j,n-1,m-1,visited,reachable);
+                        if(!ans)
+                        {
+                            flag=false;
+                            break;
+                        }
+                    }
+                }
+                if(!flag)
+                {
+                    break;
+                }
+            }
+        }
+        if(v[n-1][m-1]!='#')
+        {   if(flag)
+            {
+                cout<<"Yes\n";
+            }
+            else if(!g)
+            {
+                cout<<"Yes\n";
+            }
+            else
+            {
+                cout<<"No\n";
+            }
+            
+        }   
         else
         {
-            cout<<"No\n";
+            if(!g)
+            {
+                cout<<"Yes\n";
+            }
+            else
+            {
+                cout<<"No\n";
+            }
+            
         }
+        
     }
     return 0;
 }
