@@ -69,16 +69,37 @@ bool isPrime(int n)
           return false;
     return true; 
 }
+ll power(ll x,ll y,ll p)
+{
+    ll ans=1;
+    x = x%p;
+    if(x==0) return 0;
+    while(y)
+    {
+        if(y&1) ans=(ans*x)%p;
+        y>>=1;
+        x=(x*x)%p;
+    }
+    return ans;
+}
 int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll n;
     cin>>n;
-    ll fi=0,fj=0;
-    if(n==1)
+    vector<ll>dp(n+1,0);
+    dp[0]=1;
+    FOR(i,1,n+1)
     {
-        
+        FOR(j,1,7)
+        {
+            if(i-j>=0)
+            {
+                dp[i]=(dp[i]+dp[i-j])%MOD;
+            }
+        }
     }
+    cout<<dp[n]<<"\n";
     return 0;
 }

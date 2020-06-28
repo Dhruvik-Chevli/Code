@@ -5,6 +5,7 @@
 #include<string>
 #include<unordered_set>
 #include<stack>
+#include<limits.h>
 #include<queue>
 #include<unordered_map>
 using namespace std;
@@ -69,16 +70,53 @@ bool isPrime(int n)
           return false;
     return true; 
 }
+ll power(ll x,ll y,ll p)
+{
+    ll ans=1;
+    x = x%p;
+    if(x==0) return 0;
+    while(y)
+    {
+        if(y&1) ans=(ans*x)%p;
+        y>>=1;
+        x=(x*x)%p;
+    }
+    return ans;
+}
 int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll n;
-    cin>>n;
-    ll fi=0,fj=0;
-    if(n==1)
+    ll n,x;
+    cin>>n>>x;
+    vector<ll>v(n,0);
+    FOR(i,0,n)
     {
-        
+        cin>>v[i];
     }
+    sort(v.begin(),v.end());
+    vector<ll>dp(x+1,INT_MAX);
+    dp[0]=0;
+    FOR(i,0,n)
+    {
+        FOR(j,1,x+1)
+        {
+            if(j-v[i]>=0)
+            {
+                //cout<<"(";
+                if(dp[j]>dp[j-v[i]]+1)
+                {
+                    //cout<<")";
+                    dp[j]=dp[j-v[i]]+1;
+                }
+            }
+        }
+    }
+    if(dp[x]==INT_MAX)
+    {
+        cout<<-1<<"\n";
+    }
+    else
+        cout<<dp[x]<<"\n";
     return 0;
 }

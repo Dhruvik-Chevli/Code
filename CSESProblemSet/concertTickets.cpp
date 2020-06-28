@@ -6,6 +6,7 @@
 #include<unordered_set>
 #include<stack>
 #include<queue>
+#include<list>
 #include<unordered_map>
 using namespace std;
 typedef long long int ll;
@@ -69,16 +70,50 @@ bool isPrime(int n)
           return false;
     return true; 
 }
+ll power(ll x,ll y,ll p)
+{
+    ll ans=1;
+    x = x%p;
+    if(x==0) return 0;
+    while(y)
+    {
+        if(y&1) ans=(ans*x)%p;
+        y>>=1;
+        x=(x*x)%p;
+    }
+    return ans;
+}
 int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll n;
-    cin>>n;
-    ll fi=0,fj=0;
-    if(n==1)
+    ll n,m;
+    cin>>n>>m;
+    vector<ll>h(n,0);
+    vector<ll>t(m,0);
+    FOR(i,0,n)
     {
-        
+        cin>>h[i];
+    }
+    FOR(i,0,m)
+    {
+        cin>>t[i];
+    }
+    sort(h.begin(),h.end());
+    //vector<bool>ht(n,false);
+    vector<ll>::iterator it;
+    FOR(i,0,m)
+    {
+        it = upper_bound(h.begin(),h.end(),t[i]);
+        if(it==h.begin())
+        {
+            cout<<-1<<"\n";
+        }
+        else
+        {
+            cout<<*(it-1)<<"\n";
+            h.erase(it-1);
+        }
     }
     return 0;
 }

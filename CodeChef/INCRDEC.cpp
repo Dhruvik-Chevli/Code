@@ -6,6 +6,7 @@
 #include<unordered_set>
 #include<stack>
 #include<queue>
+#include<map>
 #include<unordered_map>
 using namespace std;
 typedef long long int ll;
@@ -69,15 +70,29 @@ bool isPrime(int n)
           return false;
     return true; 
 }
+ll power(ll x,ll y,ll p)
+{
+    ll ans=1;
+    x = x%p;
+    if(x==0) return 0;
+    while(y)
+    {
+        if(y&1) ans=(ans*x)%p;
+        y>>=1;
+        x=(x*x)%p;
+    }
+    return ans;
+}
 int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll n;
-    cin>>n;
-    ll fi=0,fj=0;
-    if(n==1)
-    {
+    ll t;
+    cin>>t;
+    while(t--) {
+        map<ll,ll>m;
+        ll n;
+        cin>>n;
         
     }
     return 0;

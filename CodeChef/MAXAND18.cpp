@@ -69,16 +69,84 @@ bool isPrime(int n)
           return false;
     return true; 
 }
+ll power(ll x,ll y,ll p)
+{
+    ll ans=1;
+    x = x%p;
+    if(x==0) return 0;
+    while(y)
+    {
+        if(y&1) ans=(ans*x)%p;
+        y>>=1;
+        x=(x*x)%p;
+    }
+    return ans;
+}
 int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll n;
-    cin>>n;
-    ll fi=0,fj=0;
-    if(n==1)
+    ll t;
+    cin>>t;
+    while(t--)
     {
-        
+        ll n,k;
+        cin>>n>>k;
+        vector<ll>v(n,0);
+        FOR(i,0,n)
+        {
+            cin>>v[i];
+        }
+        vector<pair<ll,ll> >sc;
+        unordered_map<ll,ll>m;
+        FOR(i,0,32)
+        {
+            ll ans=0;
+            FOR(j,0,n)
+            {
+                if(v[j]&(1<<i))
+                {
+                    ans+=(1<<i);
+                }
+            }
+            sc.pb(make_pair(ans,i));
+            if(m.count(ans)>0)
+            {
+                m[ans]+=1;
+            }
+            else
+            {
+                m[ans]=1;
+            }
+            
+        }
+        sort(sc.rbegin(),sc.rend());
+        ll ans=0;
+        ll coun=k;
+        ll i=0;
+        while(coun>0 and i<sc.size())
+        {
+            ll ma=sc[i].first;
+            if(m[ma]>1)
+            {
+                i+=(m[ma]-1);
+                ll j=i;
+                while(coun>0 and sc[j].first==ma)
+                {
+                    coun-=1;
+                    ans+=(1<<sc[j].second);
+                    j-=1;
+                }
+                i+=1;
+            }
+            else
+            {
+                coun-=1;
+                ans+=(1<<sc[i].second);
+                i+=1;
+            }
+        }
+        cout<<ans<<"\n";
     }
     return 0;
 }

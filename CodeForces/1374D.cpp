@@ -5,6 +5,7 @@
 #include<string>
 #include<unordered_set>
 #include<stack>
+#include<map>
 #include<queue>
 #include<unordered_map>
 using namespace std;
@@ -69,15 +70,61 @@ bool isPrime(int n)
           return false;
     return true; 
 }
+ll power(ll x,ll y,ll p)
+{
+    ll ans=1;
+    x = x%p;
+    if(x==0) return 0;
+    while(y)
+    {
+        if(y&1) ans=(ans*x)%p;
+        y>>=1;
+        x=(x*x)%p;
+    }
+    return ans;
+}
 int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll n;
-    cin>>n;
-    ll fi=0,fj=0;
-    if(n==1)
+    ll t;
+    cin>>t;
+    while(t--)
     {
+        ll n,k;
+        cin>>n>>k;
+        vector<ll>v(n,0);
+        map<ll,ll>m;
+        FOR(i,0,n)
+        {
+            cin>>v[i];
+            m[v[i]%k]++;
+        }
+        // FOR(i,0,n)
+        // {
+        //     cout<<v[i]<<" ";
+        // }
+        // cout<<"\n";
+        ll ans=0;
+        // FOR(i,0,k)
+        // {
+        //     cout<<r[i]<<" ";
+        // }
+        // cout<<"\n";
+        //unordered_map<ll,ll>::iterator it=map.begin();
+        for(auto it: m)
+        {
+            if(it.first==0) continue;
+            ans=max(ans,(it.second-1)*k+(k-it.first));
+            // it++;
+            // cout<<1;
+        }
+        if(ans==0)
+            cout<<0<<"\n";
+        else
+        {
+            cout<<ans+1<<"\n";
+        }
         
     }
     return 0;

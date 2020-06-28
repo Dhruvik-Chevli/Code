@@ -11,6 +11,7 @@ using namespace std;
 typedef long long int ll;
 #define EPS 1e-9
 #define pb push_back
+#define mp make_pair
 #define FOR(i, a, b) for(ll i = a; i < b; i++)
 #define PI 3.1415926535897932384626433832795
 #define MOD 1000000007
@@ -69,16 +70,41 @@ bool isPrime(int n)
           return false;
     return true; 
 }
+ll power(ll x,ll y,ll p)
+{
+    ll ans=1;
+    x = x%p;
+    if(x==0) return 0;
+    while(y)
+    {
+        if(y&1) ans=(ans*x)%p;
+        y>>=1;
+        x=(x*x)%p;
+    }
+    return ans;
+}
 int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll n;
     cin>>n;
-    ll fi=0,fj=0;
-    if(n==1)
+    vector<pair<ll,ll> >customers;
+    FOR(i,0,n)
     {
-        
+        ll a,b;
+        cin>>a>>b;
+        customers.pb(mp(a,1));
+        customers.pb(mp(b,-1));
     }
+    sort(customers.begin(),customers.end());
+    ll mx=0;
+    ll cur=0;
+    FOR(i,0,2*n)
+    {
+        cur+=(customers[i].second);
+        mx=max(cur,mx);
+    }
+    cout<<mx;
     return 0;
 }

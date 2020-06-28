@@ -69,16 +69,67 @@ bool isPrime(int n)
           return false;
     return true; 
 }
+ll power(ll x,ll y,ll p)
+{
+    ll ans=1;
+    x = x%p;
+    if(x==0) return 0;
+    while(y)
+    {
+        if(y&1) ans=(ans*x)%p;
+        y>>=1;
+        x=(x*x)%p;
+    }
+    return ans;
+}
 int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll n;
-    cin>>n;
-    ll fi=0,fj=0;
-    if(n==1)
+    ll n,m,k;
+    cin>>n>>m>>k;
+    vector<ll> apartReq(n,0);
+    vector<ll>apartAvail(m,0);
+    FOR(i,0,n)
     {
-        
+        cin>>apartReq[i];
     }
+    FOR(i,0,m)
+    {
+        cin>>apartAvail[i];
+    }
+    sort(apartAvail.begin(),apartAvail.end());
+    sort(apartReq.begin(),apartReq.end());
+    ll count=0;
+    ll i=0;
+    ll j=0;
+    // FOR(i,0,n)
+    // {
+    //     cout<<apartReq[i]<<" ";
+    // }
+    // cout<<"\n";
+    // FOR(i,0,m)
+    // {
+    //     cout<<apartAvail[i]<<" ";
+    // }
+    // cout<<"\n";
+    while(i<n and j<m)
+    {
+        if((apartReq[i]-apartAvail[j])>k)
+        {
+            j+=1;
+        }
+        else if(apartAvail[j]-apartReq[i]>k)
+        {
+            i+=1;
+        }
+        else
+        {
+            i+=1;
+            j+=1;
+            count+=1;
+        }
+    }
+    cout<<count<<"\n";
     return 0;
 }
