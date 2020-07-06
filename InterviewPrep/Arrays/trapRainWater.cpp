@@ -11,7 +11,6 @@ using namespace std;
 typedef long long int ll;
 #define EPS 1e-9
 #define pb push_back
-#define mp make_pair
 #define FOR(i, a, b) for(ll i = a; i < b; i++)
 #define PI 3.1415926535897932384626433832795
 #define MOD 1000000007
@@ -83,29 +82,52 @@ ll power(ll x,ll y,ll p)
     }
     return ans;
 }
-
 int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll n;
-    cin>>n;
-    vector<pair<ll,ll> >customers;
-    FOR(i,0,n)
+    ll t;
+    cin>>t;
+    while(t--)
     {
-        ll a,b;
-        cin>>a>>b;
-        customers.pb(mp(a,1));
-        customers.pb(mp(b,-1));
+        ll n;
+        cin>>n;
+        vector<ll>v(n,0);
+        FOR(i,0,n)
+        {
+            cin>>v[i];
+        }
+        vector<ll>lma(n,0);
+        vector<ll>rma(n,0);
+        lma[0]=0;
+        ll lm=v[0];
+        FOR(i,1,n)
+        {
+            lma[i]=lm;
+            if(lm<v[i])
+            {
+                lm=v[i];
+            }
+        }
+        rma[n-1]=0;
+        ll rm=v[n-1];
+        for(int i=n-1;i>=0;i--)
+        {
+            rma[i]=rm;
+            if(rm<v[i])
+            {
+                rm=v[i];
+            }
+        }
+        ll ans=0;
+        FOR(i,0,n)
+        {
+            if((min(lma[i],rma[i])-v[i])>0)
+            {
+                ans+=(min(lma[i],rma[i])-v[i]);
+            }
+        }
+        cout<<ans<<"\n";
     }
-    sort(customers.begin(),customers.end());
-    ll mx=0;
-    ll cur=0;
-    FOR(i,0,2*n)
-    {
-        cur+=(customers[i].second);
-        mx=max(cur,mx);
-    }
-    cout<<mx;
     return 0;
 }

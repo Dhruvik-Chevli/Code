@@ -11,7 +11,6 @@ using namespace std;
 typedef long long int ll;
 #define EPS 1e-9
 #define pb push_back
-#define mp make_pair
 #define FOR(i, a, b) for(ll i = a; i < b; i++)
 #define PI 3.1415926535897932384626433832795
 #define MOD 1000000007
@@ -83,29 +82,54 @@ ll power(ll x,ll y,ll p)
     }
     return ans;
 }
-
+bool comparator(pair<ll,ll>a,pair<ll,ll>b)
+{
+    if(a.first<b.first)
+    {
+        return true;
+    }
+    else if(a.first==b.first and a.second>b.second)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+    
+}
 int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll n;
-    cin>>n;
-    vector<pair<ll,ll> >customers;
-    FOR(i,0,n)
+    ll t;
+    cin>>t;
+    while(t--)
     {
-        ll a,b;
-        cin>>a>>b;
-        customers.pb(mp(a,1));
-        customers.pb(mp(b,-1));
+        ll n;
+        cin>>n;
+        vector<pair<ll,ll> >trains;
+        FOR(i,0,n)
+        {
+            ll k;
+            cin>>k;
+            trains.pb(make_pair(k,1));
+        }
+        FOR(i,0,n-1)
+        {
+            ll k;
+            cin>>k;
+            trains.pb(make_pair(k,-1));
+        }
+        sort(trains.begin(),trains.end(),comparator);
+        ll ma=0;
+        ll cur=0;
+        FOR(i,0,trains.size())
+        {
+            cur+=trains[i].second;
+            ma=max(cur,ma);
+        }
+        cout<<ma<<"\n";
     }
-    sort(customers.begin(),customers.end());
-    ll mx=0;
-    ll cur=0;
-    FOR(i,0,2*n)
-    {
-        cur+=(customers[i].second);
-        mx=max(cur,mx);
-    }
-    cout<<mx;
     return 0;
 }

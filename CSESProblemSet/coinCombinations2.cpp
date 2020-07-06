@@ -11,7 +11,6 @@ using namespace std;
 typedef long long int ll;
 #define EPS 1e-9
 #define pb push_back
-#define mp make_pair
 #define FOR(i, a, b) for(ll i = a; i < b; i++)
 #define PI 3.1415926535897932384626433832795
 #define MOD 1000000007
@@ -83,29 +82,31 @@ ll power(ll x,ll y,ll p)
     }
     return ans;
 }
-
 int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll n;
-    cin>>n;
-    vector<pair<ll,ll> >customers;
+    ll n,x;
+    cin>>n>>x;
+    vector<ll>coins(n,0);
     FOR(i,0,n)
     {
-        ll a,b;
-        cin>>a>>b;
-        customers.pb(mp(a,1));
-        customers.pb(mp(b,-1));
+        cin>>coins[i];
     }
-    sort(customers.begin(),customers.end());
-    ll mx=0;
-    ll cur=0;
-    FOR(i,0,2*n)
+    vector<ll>dp(x+1,0);//dp(x+1,vector<ll>(n,0));
+    // FOR(i,0,n)
+    // {
+        dp[0]=1;
+    // }
+    FOR(i,0,n)
     {
-        cur+=(customers[i].second);
-        mx=max(cur,mx);
+        FOR(j,coins[i],x+1)
+        {
+            // ll x=((i-coins[j]>=0)?dp[i-coins[j]][j]:0);
+            // ll y=((j-1>=0)?dp[i][j-1]:0);
+            (dp[j]+=dp[j-coins[i]])%=MOD;
+        }
     }
-    cout<<mx;
+    cout<<dp[x]<<"\n";
     return 0;
 }

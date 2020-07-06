@@ -11,7 +11,6 @@ using namespace std;
 typedef long long int ll;
 #define EPS 1e-9
 #define pb push_back
-#define mp make_pair
 #define FOR(i, a, b) for(ll i = a; i < b; i++)
 #define PI 3.1415926535897932384626433832795
 #define MOD 1000000007
@@ -83,29 +82,65 @@ ll power(ll x,ll y,ll p)
     }
     return ans;
 }
-
+long long int merge(vector<ll>&v, vector<ll>&temp, ll left, ll mid, ll right)
+{
+    long long int ic=0;
+    int i=left, j=mid, k=left;
+    while(i<=mid-1 and j<=right)
+    {
+        if(v[i]<=v[j])
+        {
+            temp[k++]=v[i++];
+        }
+        else
+        {
+            temp[k++]=v[j++];
+            ic+=(mid-i);
+        }
+    }
+    while(i<=mid-1)
+    {
+        temp[k++]=v[i++];
+    }
+    while(j<=right)
+    {
+        temp[k++]=v[j++];
+    }
+    for(int i=left;i<=right;i++)
+    {
+        v[i]=temp[i];
+    }
+    return ic;
+}
+long long int inversionCount(vector<ll>&v, ll left, ll right, vector<ll>&temp)
+{
+    int mid;long long int ic=0;
+    if(right>left)
+    {
+        mid = (right+left)>>1;
+        ic+=(inversionCount(v,left,mid,temp));
+        ic+=(inversionCount(v,mid+1,right,temp));
+        ic+=merge(v,temp,left,mid+1,right); 
+    }
+    return ic;
+}
 int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll n;
-    cin>>n;
-    vector<pair<ll,ll> >customers;
-    FOR(i,0,n)
+    ll t;
+    cin>>t;
+    while(t--)
     {
-        ll a,b;
-        cin>>a>>b;
-        customers.pb(mp(a,1));
-        customers.pb(mp(b,-1));
+        ll n;
+        cin>>n;
+        vector<ll>v(n,0);
+        FOR(i,0,n)
+        {
+            cin>>v[i];
+        }
+        vector<ll>temp(n,0);
+        cout<<inversionCount(v,0,n-1,temp)<<"\n";
     }
-    sort(customers.begin(),customers.end());
-    ll mx=0;
-    ll cur=0;
-    FOR(i,0,2*n)
-    {
-        cur+=(customers[i].second);
-        mx=max(cur,mx);
-    }
-    cout<<mx;
     return 0;
 }

@@ -5,6 +5,7 @@
         "ostream": "cpp",
         "vector": "cpp",
         "utility": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "*.txt": "c"
     }
 }

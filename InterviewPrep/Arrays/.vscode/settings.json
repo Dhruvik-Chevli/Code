@@ -1,0 +1,8 @@
+{
+    "C_Cpp.errorSquiggles": "Disabled",
+    "files.associations": {
+        "unordered_set": "cpp",
+        "iostream": "cpp",
+        "algorithm": "cpp"
+    }
+}

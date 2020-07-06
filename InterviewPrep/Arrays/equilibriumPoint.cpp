@@ -11,7 +11,6 @@ using namespace std;
 typedef long long int ll;
 #define EPS 1e-9
 #define pb push_back
-#define mp make_pair
 #define FOR(i, a, b) for(ll i = a; i < b; i++)
 #define PI 3.1415926535897932384626433832795
 #define MOD 1000000007
@@ -83,29 +82,38 @@ ll power(ll x,ll y,ll p)
     }
     return ans;
 }
-
 int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll n;
-    cin>>n;
-    vector<pair<ll,ll> >customers;
-    FOR(i,0,n)
+    ll t;
+    cin>>t;
+    while(t--)
     {
-        ll a,b;
-        cin>>a>>b;
-        customers.pb(mp(a,1));
-        customers.pb(mp(b,-1));
+        ll n;
+        cin>>n;
+        ll rsum=0;
+        vector<ll>v(n,0);
+        FOR(i,0,n)
+        {
+            cin>>v[i];
+            rsum+=v[i];
+        }
+        ll lsum=0;
+        ll prev=0;
+        ll ans=-2;
+        FOR(i,0,n)
+        {
+            lsum+=prev;
+            rsum-=v[i];
+            if(lsum==rsum)
+            {
+                ans=i;
+                break;
+            }
+            prev=v[i];
+        }
+        cout<<ans+1<<"\n";
     }
-    sort(customers.begin(),customers.end());
-    ll mx=0;
-    ll cur=0;
-    FOR(i,0,2*n)
-    {
-        cur+=(customers[i].second);
-        mx=max(cur,mx);
-    }
-    cout<<mx;
     return 0;
 }
