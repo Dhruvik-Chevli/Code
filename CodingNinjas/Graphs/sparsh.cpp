@@ -10,7 +10,7 @@
 using namespace std;
 typedef long long int ll;
 #define EPS 1e-9
-#define pb push_back
+// #define pb push_back
 #define FOR(i, a, b) for(ll i = a; i < b; i++)
 #define PI 3.1415926535897932384626433832795
 #define MOD 1000000007
@@ -82,43 +82,91 @@ ll power(ll x,ll y,ll p)
     }
     return ans;
 }
-int knapsack(int n, int mw, vector<ll>&weight, vector<ll>&val)
+void getAllPaths(int curh, int cury,int h, int y,vector<string>&ans,string s)
 {
-    vector<vector<ll> >dp(n,vector<ll>(mw+1,0));
-    FOR(i,1,mw+1)
+    if(curh==h and cury==y)
     {
-        dp[0][i]=(i-weight[0]>=0)?val[0]:0;
+        ans.push_back(s);
+        return;
     }
-    FOR(i,1,n)
+    if(curh>h or cury>y)
     {
-        FOR(j,0,mw+1)
+        return;
+    }
+    if(curh<h)
+    {
+        string s1=s+'H';
+        getAllPaths(curh+1,cury,h,y,ans,s1);
+    }
+    if(cury<y)
+    {
+        string s1=s+'V';
+        getAllPaths(curh,cury+1,h,y,ans,s1);
+    }
+}
+vector<string> getPaths(int x,int y)
+{
+    vector<string>ans;
+    string cur="";
+    getAllPaths(0,0,x,y,ans,cur);
+    sort(ans.begin(),ans.end());
+    return ans;
+}
+vector<string>getSafePaths(vector<string> journeys)
+{
+    vector<string>ans;
+    vector<vector<vector<string> > >poss(10,vector<vector<string> >(10,vector<string>()));
+    for(int i=0;i<10;i++)
+    {
+        for(int j=0;j<10;j++)
         {
-            dp[i][j]=(j-weight[i]>=0)?max(val[i]+dp[i-1][j-weight[i]],dp[i-1][j]):dp[i-1][j];
+            vector<string> ans1=getPaths(i+1,j+1);
+            poss[i][j].push_back(ans1);
         }
     }
-    return dp[n-1][mw];
+    for(int i=0;i<journeys.size();i++)
+    {
+        int j=0;
+        int k=0;
+        while(journeys[i][j]!=' ')
+        {
+            j++;
+        }
+        k=j+1;
+        while(journeys[i][k]!=' ')
+        {
+            k++;
+        }
+        int x=stoi(journeys[i].substr(0,j));
+        
+        int y=stoi(journeys[i].substr(j+1,k-j));
+        int z=stoi(journeys[i].substr(k+1));
+        ans.push_back(poss[i-1][j-1][k]);
+    }
+    return ans;
 }
 int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll t;
-    cin>>t;
-    while(t--)
+    int n;
+    cin>>n;
+    vector<string>journeys;
+    cin.ignore();
+    FOR(i,0,n)
     {
-        ll n,mw;
-        cin>>n>>mw;
-        vector<ll>val(n,0);
-        vector<ll>weight(n,0);
-        FOR(i,0,n)
-        {
-            cin>>val[i];
-        }
-        FOR(i,0,n)
-        {
-            cin>>weight[i];
-        }
-        cout<<knapsack(n,mw,weight,val)<<"\n";
+        string s;
+        getline(cin,s);
+        journeys.push_back(s);
+    }
+    FOR(i,0,n)
+    {
+        cout<<journeys[i]<<"\n";
+    }
+    vector<string>ans=getSafePaths(journeys);
+    FOR(i,0,ans.size())
+    {
+        cout<<ans[i]<<"\n";
     }
     return 0;
 }

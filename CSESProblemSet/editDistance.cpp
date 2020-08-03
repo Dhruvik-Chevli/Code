@@ -86,33 +86,33 @@ int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll t;
-    cin>>t;
-    while(t--)
+    string s1,s2;
+    cin>>s1>>s2;
+    ll n=s1.size();
+    ll m=s2.size();
+    vector<vector<ll> >dp(n+1,vector<ll>(m+1,0));
+    FOR(i,0,n+1)
     {
-        ll n;
-        cin>>n;
-        vector<ll>s(n,0);
-        FOR(i,0,n)
+        dp[i][0]=i;
+    }
+    FOR(i,0,m+1)
+    {
+        dp[0][i]=i;
+    }
+    FOR(i,1,n+1)
+    {
+        FOR(j,1,m+1)
         {
-            cin>>s[i];
-        }
-        ll m;
-        cin>>m;
-        vector<vector<ll> >dp(m+1,vector<ll>(n,0));
-        FOR(i,0,n)
-        {
-            dp[0][i]=1;
-        }
-        FOR(i,1,m+1)
-        {
-            FOR(j,0,n)
+            if(s1[i-1]==s2[j-1])
             {
-                dp[i][j]=(i-s[j]>=0)?dp[i-s[j]][j]:0;
-                dp[i][j]+=(j>=1)?dp[i][j-1]:0;
+                dp[i][j]=dp[i-1][j-1];
+            }
+            else
+            {
+                dp[i][j]=min(dp[i-1][j-1],min(dp[i-1][j],dp[i][j-1]))+1;
             }
         }
-        cout<<dp[m][n-1]<<"\n";
     }
+    cout<<dp[n][m]<<"\n";
     return 0;
 }

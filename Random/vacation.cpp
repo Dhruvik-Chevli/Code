@@ -86,33 +86,23 @@ int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll t;
-    cin>>t;
-    while(t--)
+    ll n;
+    cin>>n;
+    vector<vector<ll> >v(n,vector<ll>(3,0));
+    FOR(i,0,n)
     {
-        ll n;
-        cin>>n;
-        vector<ll>s(n,0);
-        FOR(i,0,n)
-        {
-            cin>>s[i];
-        }
-        ll m;
-        cin>>m;
-        vector<vector<ll> >dp(m+1,vector<ll>(n,0));
-        FOR(i,0,n)
-        {
-            dp[0][i]=1;
-        }
-        FOR(i,1,m+1)
-        {
-            FOR(j,0,n)
-            {
-                dp[i][j]=(i-s[j]>=0)?dp[i-s[j]][j]:0;
-                dp[i][j]+=(j>=1)?dp[i][j-1]:0;
-            }
-        }
-        cout<<dp[m][n-1]<<"\n";
+        cin>>v[i][0]>>v[i][1]>>v[i][2];
     }
+    vector<vector<ll> >dp(n,vector<ll>(3,0));
+    dp[0][0]=v[0][0];
+    dp[0][1]=v[0][1];
+    dp[0][2]=v[0][2];
+    FOR(i,1,n)
+    {
+        dp[i][0]=v[i][0]+max(dp[i-1][1],dp[i-1][2]);
+        dp[i][1]=v[i][1]+max(dp[i-1][0],dp[i-1][2]);
+        dp[i][2]=v[i][2]+max(dp[i-1][0],dp[i-1][1]);
+    }
+    cout<<max(dp[n-1][0],max(dp[n-1][1],dp[n-1][2]));
     return 0;
 }

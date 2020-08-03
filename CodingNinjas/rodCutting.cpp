@@ -92,27 +92,26 @@ int main()
     {
         ll n;
         cin>>n;
-        vector<ll>s(n,0);
-        FOR(i,0,n)
+        ll x,y,z;
+        cin>>x>>y>>z;
+        vector<ll>dp(n+1,-1);
+        dp[0]=0;
+        FOR(i,1,n+1)
         {
-            cin>>s[i];
-        }
-        ll m;
-        cin>>m;
-        vector<vector<ll> >dp(m+1,vector<ll>(n,0));
-        FOR(i,0,n)
-        {
-            dp[0][i]=1;
-        }
-        FOR(i,1,m+1)
-        {
-            FOR(j,0,n)
+            if(i-x>=0 and dp[i-x]!=-1)
             {
-                dp[i][j]=(i-s[j]>=0)?dp[i-s[j]][j]:0;
-                dp[i][j]+=(j>=1)?dp[i][j-1]:0;
+                dp[i]=max(dp[i],dp[i-x]+1);
+            }
+            if(i-y>=0 and dp[i-y]!=-1)
+            {
+                dp[i]=max(dp[i],dp[i-y]+1);
+            }
+            if(i-z>=0 and dp[i-z]!=-1)
+            {
+                dp[i]=max(dp[i],dp[i-z]+1);
             }
         }
-        cout<<dp[m][n-1]<<"\n";
+        cout<<dp[n]<<"\n";
     }
     return 0;
 }

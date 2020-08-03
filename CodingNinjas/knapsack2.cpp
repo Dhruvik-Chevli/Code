@@ -82,37 +82,37 @@ ll power(ll x,ll y,ll p)
     }
     return ans;
 }
+
+ll knapsack(vector<ll>&wt, vector<ll>&val, ll n, ll mw)
+{
+    vector<vector<ll> >dp(n,vector<ll>(mw+1,0));
+    FOR(i,1,mw+1)
+    {
+        dp[0][i]=(i-wt[0]>=0)?val[0]:0;
+    }
+    FOR(i,1,n)
+    {
+        FOR(j,0,mw+1)
+        {
+            dp[i][j]=(j-wt[i]>=0)?max(val[i]+dp[i-1][j-wt[i]],dp[i-1][j]):dp[i-1][j];
+        }
+    }
+    return dp[n-1][mw];
+
+}
+    
 int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll t;
-    cin>>t;
-    while(t--)
+    ll n, mw;
+    cin>>n>>mw;
+    vector<ll>wt(n,0);
+    vector<ll>val(n,0);
+    FOR(i,0,n)
     {
-        ll n;
-        cin>>n;
-        vector<ll>s(n,0);
-        FOR(i,0,n)
-        {
-            cin>>s[i];
-        }
-        ll m;
-        cin>>m;
-        vector<vector<ll> >dp(m+1,vector<ll>(n,0));
-        FOR(i,0,n)
-        {
-            dp[0][i]=1;
-        }
-        FOR(i,1,m+1)
-        {
-            FOR(j,0,n)
-            {
-                dp[i][j]=(i-s[j]>=0)?dp[i-s[j]][j]:0;
-                dp[i][j]+=(j>=1)?dp[i][j-1]:0;
-            }
-        }
-        cout<<dp[m][n-1]<<"\n";
+        cin>>wt[i]>>val[i];
     }
+    cout<<knapsack(wt,val,n,mw);
     return 0;
 }

@@ -6,6 +6,8 @@
         "unordered_set": "cpp",
         "utility": "cpp",
         "ostream": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "__bit_reference": "cpp",
+        "vector": "cpp"
     }
 }

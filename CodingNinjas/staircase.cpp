@@ -87,32 +87,20 @@ int main()
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t;
-    cin>>t;
+    cin>>t;vector<ll>dp(50+1,0);
+    dp[0]=0;
+    dp[1]=1;
+    dp[2]=2;
+    dp[3]=4;
+    FOR(i,4,51)
+    {
+        dp[i]=dp[i-1]+dp[i-2]+dp[i-3];
+    }
     while(t--)
     {
         ll n;
         cin>>n;
-        vector<ll>s(n,0);
-        FOR(i,0,n)
-        {
-            cin>>s[i];
-        }
-        ll m;
-        cin>>m;
-        vector<vector<ll> >dp(m+1,vector<ll>(n,0));
-        FOR(i,0,n)
-        {
-            dp[0][i]=1;
-        }
-        FOR(i,1,m+1)
-        {
-            FOR(j,0,n)
-            {
-                dp[i][j]=(i-s[j]>=0)?dp[i-s[j]][j]:0;
-                dp[i][j]+=(j>=1)?dp[i][j-1]:0;
-            }
-        }
-        cout<<dp[m][n-1]<<"\n";
+        cout<<dp[n]<<"\n";
     }
     return 0;
 }

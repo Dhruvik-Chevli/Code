@@ -88,31 +88,38 @@ int main()
     cin.tie(NULL);
     ll t;
     cin>>t;
-    while(t--)
-    {
+    while(t--){
         ll n;
         cin>>n;
-        vector<ll>s(n,0);
+        vector<ll>v(n,0);
         FOR(i,0,n)
         {
-            cin>>s[i];
+            cin>>v[i];
         }
-        ll m;
-        cin>>m;
-        vector<vector<ll> >dp(m+1,vector<ll>(n,0));
-        FOR(i,0,n)
+        vector<ll>ans(n,0);
+        stack<ll>s;
+        // s.push(v[0]);
+        for(int i=n-1;i>=0;i--)
         {
-            dp[0][i]=1;
-        }
-        FOR(i,1,m+1)
-        {
-            FOR(j,0,n)
+            while(!s.empty() and s.top()<=v[i])
             {
-                dp[i][j]=(i-s[j]>=0)?dp[i-s[j]][j]:0;
-                dp[i][j]+=(j>=1)?dp[i][j-1]:0;
+                s.pop();
             }
+            if(s.empty())
+            {
+                ans[i]=-1;
+            }
+            else
+            {
+                ans[i]=s.top();
+            }
+            s.push(v[i]);
         }
-        cout<<dp[m][n-1]<<"\n";
+        FOR(i,0,n)
+        {
+            cout<<ans[i]<<" ";
+        }
+        cout<<"\n";
     }
     return 0;
 }

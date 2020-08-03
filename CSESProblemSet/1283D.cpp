@@ -6,6 +6,7 @@
 #include<unordered_set>
 #include<stack>
 #include<queue>
+#include<map>
 #include<unordered_map>
 using namespace std;
 typedef long long int ll;
@@ -86,33 +87,48 @@ int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll t;
-    cin>>t;
-    while(t--)
+    ll n,m;
+    cin>>n>>m;
+    vector<ll>v(n,0);
+    FOR(i,0,n)
     {
-        ll n;
-        cin>>n;
-        vector<ll>s(n,0);
-        FOR(i,0,n)
-        {
-            cin>>s[i];
-        }
-        ll m;
-        cin>>m;
-        vector<vector<ll> >dp(m+1,vector<ll>(n,0));
-        FOR(i,0,n)
-        {
-            dp[0][i]=1;
-        }
-        FOR(i,1,m+1)
-        {
-            FOR(j,0,n)
-            {
-                dp[i][j]=(i-s[j]>=0)?dp[i-s[j]][j]:0;
-                dp[i][j]+=(j>=1)?dp[i][j-1]:0;
-            }
-        }
-        cout<<dp[m][n-1]<<"\n";
+        cin>>v[i];
     }
+    queue<int>q;
+    map<ll,ll>d;
+    FOR(i,0,n)
+    {
+        d[v[i]]=0;
+        q.push(v[i]);
+    }
+    ll ans=0;
+    vector<ll>res;
+    while(!q.empty())
+    {
+        if(int(res.size())==m) break;
+        ll cur=q.front();
+        q.pop();
+        if(d[cur]!=0)
+        {
+            ans+=d[cur];
+            res.pb(cur);
+        }
+        if(!d.count(cur-1)) 
+        {
+            d[cur-1]=d[cur]+1;
+            q.push(cur-1);
+        }
+        if(!d.count(cur+1))
+        {
+            d[cur+1]=d[cur]+1;
+            q.push(cur+1);
+        }
+    }
+    cout<<ans<<"\n";
+    FOR(i,0,m)
+    {
+        cout<<res[i]<<" ";
+    }
+    cout<<"\n";
     return 0;
 }

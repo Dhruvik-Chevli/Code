@@ -82,37 +82,39 @@ ll power(ll x,ll y,ll p)
     }
     return ans;
 }
+ll solve(ll n,ll x,vector<ll>&h, vector<ll>&s)
+{
+    vector<ll>dp(x+1,0);
+    dp[0]=0;
+    FOR(i,1,x+1)
+    {
+        dp[i]=(i-h[0]>=0)?s[0]:0;
+    }
+    FOR(i,1,n)
+    {
+        for(int j=x;j>=0;j--)
+        {
+            dp[j]=(j-h[i]>=0)?(max(s[i]+dp[j-h[i]],dp[j])):dp[j];
+        }
+    }
+    return dp[x];
+}
 int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll t;
-    cin>>t;
-    while(t--)
+    ll n,x;
+    cin>>n>>x;
+    vector<ll>h(n,0);
+    vector<ll>s(n,0);
+    FOR(i,0,n)
     {
-        ll n;
-        cin>>n;
-        vector<ll>s(n,0);
-        FOR(i,0,n)
-        {
-            cin>>s[i];
-        }
-        ll m;
-        cin>>m;
-        vector<vector<ll> >dp(m+1,vector<ll>(n,0));
-        FOR(i,0,n)
-        {
-            dp[0][i]=1;
-        }
-        FOR(i,1,m+1)
-        {
-            FOR(j,0,n)
-            {
-                dp[i][j]=(i-s[j]>=0)?dp[i-s[j]][j]:0;
-                dp[i][j]+=(j>=1)?dp[i][j-1]:0;
-            }
-        }
-        cout<<dp[m][n-1]<<"\n";
+        cin>>h[i];
     }
+    FOR(i,0,n)
+    {
+        cin>>s[i];
+    }
+    cout<<solve(n,x,h,s);
     return 0;
 }

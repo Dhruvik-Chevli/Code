@@ -92,27 +92,40 @@ int main()
     {
         ll n;
         cin>>n;
-        vector<ll>s(n,0);
+        vector<ll>v(n,0);
+        ll k=0;
         FOR(i,0,n)
         {
-            cin>>s[i];
+            cin>>v[i];
+            k+=v[i];
         }
-        ll m;
-        cin>>m;
-        vector<vector<ll> >dp(m+1,vector<ll>(n,0));
+        if(k&1)
+        {
+            cout<<"NO\n";
+            continue;
+        }
+        k>>=1;
+        vector<bool>dp(k+1,false);
+        dp[0]=true;
         FOR(i,0,n)
         {
-            dp[0][i]=1;
-        }
-        FOR(i,1,m+1)
-        {
-            FOR(j,0,n)
+            for(int j=k+1;j>=v[i];j--)
             {
-                dp[i][j]=(i-s[j]>=0)?dp[i-s[j]][j]:0;
-                dp[i][j]+=(j>=1)?dp[i][j-1]:0;
+                if(!dp[j] and j-v[i]>=0 and dp[j-v[i]])
+                {
+                    dp[j]=true;
+                }
             }
         }
-        cout<<dp[m][n-1]<<"\n";
+        if(dp[k])
+        {
+            cout<<"YES\n";
+        }
+        else
+        {
+            cout<<"NO\n";
+        }
+        
     }
     return 0;
 }

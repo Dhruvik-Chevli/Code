@@ -92,27 +92,27 @@ int main()
     {
         ll n;
         cin>>n;
-        vector<ll>s(n,0);
+        vector<ll>v(n,0);
         FOR(i,0,n)
         {
-            cin>>s[i];
+            cin>>v[i];
         }
-        ll m;
-        cin>>m;
-        vector<vector<ll> >dp(m+1,vector<ll>(n,0));
-        FOR(i,0,n)
+        vector<vector<ll> >dp(n,vector<ll>(n,0));
+        for(int l=n-1;l>=0;l--)
         {
-            dp[0][i]=1;
-        }
-        FOR(i,1,m+1)
-        {
-            FOR(j,0,n)
+            for(int r=l;r<n;r++)
             {
-                dp[i][j]=(i-s[j]>=0)?dp[i-s[j]][j]:0;
-                dp[i][j]+=(j>=1)?dp[i][j-1]:0;
+                if(l==r)
+                {
+                    dp[l][r]=v[l];
+                }
+                else
+                {
+                    dp[l][r]=max(v[l]-dp[l+1][r],v[r]-dp[l][r-1]);
+                }
             }
         }
-        cout<<dp[m][n-1]<<"\n";
+        cout<<dp[0][n-1]<<"\n";
     }
     return 0;
 }

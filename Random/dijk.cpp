@@ -86,33 +86,27 @@ int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll t;
-    cin>>t;
-    while(t--)
+    return 0;
+}
+vector <int> dijkstra(vector<vector<int> > g, int src, int V)
+{
+    priority_queue<pair<int,int>,vector<pair<int,int> >, greater<pair<int,int>> >pq;
+    pq.push(make_pair(0,src));
+    vector<int>dist(V,10000000);
+    dist[src]=0;
+    while(!pq.empty())
     {
-        ll n;
-        cin>>n;
-        vector<ll>s(n,0);
-        FOR(i,0,n)
+        int vert = pq.top().second;
+        int dis = pq.top().first;
+        for(int i=0;i<V;i++)
         {
-            cin>>s[i];
-        }
-        ll m;
-        cin>>m;
-        vector<vector<ll> >dp(m+1,vector<ll>(n,0));
-        FOR(i,0,n)
-        {
-            dp[0][i]=1;
-        }
-        FOR(i,1,m+1)
-        {
-            FOR(j,0,n)
+            if(g[vert][i]+dis<dist[i])
             {
-                dp[i][j]=(i-s[j]>=0)?dp[i-s[j]][j]:0;
-                dp[i][j]+=(j>=1)?dp[i][j-1]:0;
+                dist[i]=g[vert][i]+dis;
+                pq.push(make_pair(dist[i],i));
             }
         }
-        cout<<dp[m][n-1]<<"\n";
     }
-    return 0;
+    return dist;
+    
 }
