@@ -128,7 +128,7 @@ int main()
                         break;
                     }
                     unordered_set<ll>s;
-                    FOR(j,0,cb[i].size())
+                    FOR(j,0,cb [i].size())
                     {
                         s.insert(cb[i][j]);
                     }                   

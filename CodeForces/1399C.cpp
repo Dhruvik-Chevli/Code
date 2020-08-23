@@ -90,30 +90,31 @@ int main()
     cin>>t;
     while(t--)
     {
-        ll n,k;
-        cin>>n>>k;
-        vector<ll>v(n,0);
+        ll n;
+        cin>>n;
+        vector<ll>v(n+1,0);
         FOR(i,0,n)
         {
-            cin>>v[i];
+            ll k;
+            cin>>k;
+            v[k]++;
         }
-        vector<ll>dp(1005,1e9);
-        dp[0]=0;
-        FOR(i,0,n)
+        ll ma=0;
+        FOR(i,2,2*n+1)
         {
-            vector<ll>cnt(1005,0);
-            FOR(j,i,n)
+            ll count=0;
+            FOR(j,1,(i+1)/2)
             {
-                cnt[v[j]]++;
-                int co=0;
-                FOR(k,1,101)
-                {
-                    co+=(cnt[k]==1)?0:cnt[k];
-                }
-                dp[j+1]=min(dp[i]+co+k,dp[j+1]);
+                if(i-j>n) continue;
+                count+=(min(v[j],v[i-j]));
+            }
+            if(i%2==0) count+=(v[i/2]/2);
+            if(count>ma)
+            {
+                ma=count;
             }
         }
-        cout<<dp[n]<<"\n";
+        cout<<ma<<"\n";
     }
     return 0;
 }

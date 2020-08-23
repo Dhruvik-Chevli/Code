@@ -90,30 +90,23 @@ int main()
     cin>>t;
     while(t--)
     {
-        ll n,k;
-        cin>>n>>k;
-        vector<ll>v(n,0);
+        ll n;
+        cin>>n;
         FOR(i,0,n)
         {
-            cin>>v[i];
+            ll x,y;
+            cin>>x>>y;
         }
-        vector<ll>dp(1005,1e9);
-        dp[0]=0;
-        FOR(i,0,n)
+        ll ans=n;
+        n>>=1;
+        while(n>=4)
         {
-            vector<ll>cnt(1005,0);
-            FOR(j,i,n)
-            {
-                cnt[v[j]]++;
-                int co=0;
-                FOR(k,1,101)
-                {
-                    co+=(cnt[k]==1)?0:cnt[k];
-                }
-                dp[j+1]=min(dp[i]+co+k,dp[j+1]);
-            }
+            ans+=n;
+            n>>=1;
         }
-        cout<<dp[n]<<"\n";
+        if(n==4 or n==3)
+            ans+=n;
+        cout<<ans<<"\n";
     }
     return 0;
 }

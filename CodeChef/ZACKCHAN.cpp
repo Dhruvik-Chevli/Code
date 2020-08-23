@@ -82,6 +82,11 @@ ll power(ll x,ll y,ll p)
     }
     return ans;
 }
+ll gcd(ll n, ll m)
+{
+    if(n==0) return m;
+    return gcd(m%n,n);
+}
 int main()
 {
     std::ios_base::sync_with_stdio(false);
@@ -90,30 +95,9 @@ int main()
     cin>>t;
     while(t--)
     {
-        ll n,k;
-        cin>>n>>k;
-        vector<ll>v(n,0);
-        FOR(i,0,n)
-        {
-            cin>>v[i];
-        }
-        vector<ll>dp(1005,1e9);
-        dp[0]=0;
-        FOR(i,0,n)
-        {
-            vector<ll>cnt(1005,0);
-            FOR(j,i,n)
-            {
-                cnt[v[j]]++;
-                int co=0;
-                FOR(k,1,101)
-                {
-                    co+=(cnt[k]==1)?0:cnt[k];
-                }
-                dp[j+1]=min(dp[i]+co+k,dp[j+1]);
-            }
-        }
-        cout<<dp[n]<<"\n";
+        ll l,b;
+        cin>>l>>b;
+        cout<<gcd(l,b)<<"\n";
     }
     return 0;
 }

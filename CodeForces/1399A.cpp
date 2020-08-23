@@ -90,30 +90,31 @@ int main()
     cin>>t;
     while(t--)
     {
-        ll n,k;
-        cin>>n>>k;
+        ll n;
+        cin>>n;
         vector<ll>v(n,0);
         FOR(i,0,n)
         {
             cin>>v[i];
         }
-        vector<ll>dp(1005,1e9);
-        dp[0]=0;
-        FOR(i,0,n)
+        sort(v.begin(),v.end());
+        bool isPoss=true;
+        FOR(i,1,n)
         {
-            vector<ll>cnt(1005,0);
-            FOR(j,i,n)
+            if(v[i]-v[i-1]>1)
             {
-                cnt[v[j]]++;
-                int co=0;
-                FOR(k,1,101)
-                {
-                    co+=(cnt[k]==1)?0:cnt[k];
-                }
-                dp[j+1]=min(dp[i]+co+k,dp[j+1]);
+                isPoss=false;
+                break;
             }
         }
-        cout<<dp[n]<<"\n";
+        if(isPoss)
+        {
+            cout<<"YES\n";
+        }
+        else
+        {
+            cout<<"NO\n";
+        }
     }
     return 0;
 }

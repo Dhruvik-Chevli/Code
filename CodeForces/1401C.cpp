@@ -82,6 +82,14 @@ ll power(ll x,ll y,ll p)
     }
     return ans;
 }
+ll gcd(ll n,ll m)
+{
+    if(n==0)
+    {
+        return m;
+    }
+    return gcd(m%n,n);
+}
 int main()
 {
     std::ios_base::sync_with_stdio(false);
@@ -90,30 +98,42 @@ int main()
     cin>>t;
     while(t--)
     {
-        ll n,k;
-        cin>>n>>k;
-        vector<ll>v(n,0);
+        ll n;
+        cin>>n;
+        vector<pair<ll,ll> >v;
         FOR(i,0,n)
         {
-            cin>>v[i];
+            ll k;
+            cin>>k;
+            v.pb(make_pair(k,i));
         }
-        vector<ll>dp(1005,1e9);
-        dp[0]=0;
+        sort(v.begin(),v.end());
+        vector<ll>nec;
         FOR(i,0,n)
         {
-            vector<ll>cnt(1005,0);
-            FOR(j,i,n)
+            if(v[i].second!=i)
             {
-                cnt[v[j]]++;
-                int co=0;
-                FOR(k,1,101)
-                {
-                    co+=(cnt[k]==1)?0:cnt[k];
-                }
-                dp[j+1]=min(dp[i]+co+k,dp[j+1]);
+                nec.pb(v[i].first);
             }
         }
-        cout<<dp[n]<<"\n";
+        if(nec.empty())
+        {
+            cout<<"YES\n";
+            continue;
+        }
+        ll g=v[0].first;
+        FOR(i,0,nec.size())
+        {
+            g=gcd(nec[i],g);
+        }
+        if(g!=v[0].first)
+        {
+            cout<<"NO\n";
+        }
+        else
+        {
+            cout<<"YES\n";
+        }
     }
     return 0;
 }

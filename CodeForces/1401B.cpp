@@ -90,30 +90,66 @@ int main()
     cin>>t;
     while(t--)
     {
-        ll n,k;
-        cin>>n>>k;
-        vector<ll>v(n,0);
-        FOR(i,0,n)
+        // ll n;
+        // cin>>n;
+        // vector<ll>a(n,0);
+        // vector<ll>b(n,0);
+        ll a0=0,a1=0,a2=0;
+        ll b0=0,b1=0,b2=0;
+        cin>>a0>>a1>>a2>>b0>>b1>>b2;
+        // FOR(i,0,n)
+        // {
+        //     cin>>a[i];
+        //     if(a[i]==0)
+        //     {
+        //         a0+=1;
+        //     }
+        //     else if(a[i]==1)
+        //     {
+        //         a1+=1;
+        //     }
+        //     else
+        //     {
+        //         a2+=1;
+        //     }
+        // }
+        // FOR(i,0,n)
+        // {
+        //     cin>>b[i];
+        //     if(b[i]==0)
+        //     {
+        //         b0+=1;
+        //     }
+        //     else if(b[i]==1)
+        //     {
+        //         b1+=1;
+        //     }
+        //     else
+        //     {
+        //         b2+=1;
+        //     }
+        // }
+        ll count=0;
+        if(a2>b1)
         {
-            cin>>v[i];
+            count+=(2*b1);
+            a2-=b1;
+            b1=0;
         }
-        vector<ll>dp(1005,1e9);
-        dp[0]=0;
-        FOR(i,0,n)
+        else
         {
-            vector<ll>cnt(1005,0);
-            FOR(j,i,n)
-            {
-                cnt[v[j]]++;
-                int co=0;
-                FOR(k,1,101)
-                {
-                    co+=(cnt[k]==1)?0:cnt[k];
-                }
-                dp[j+1]=min(dp[i]+co+k,dp[j+1]);
-            }
+            count+=a2*2;
+            b1-=a2;
+            a2=0;
         }
-        cout<<dp[n]<<"\n";
+        if(b2>=(a0+a2))
+        {
+            b2-=(a0+a2);
+            a0=0;
+            a2=0;
+            count-=(2*b2);
+        }
+        cout<<count<<"\n";
     }
     return 0;
 }

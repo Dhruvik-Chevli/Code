@@ -92,28 +92,20 @@ int main()
     {
         ll n,k;
         cin>>n>>k;
-        vector<ll>v(n,0);
-        FOR(i,0,n)
+        if(n<=k)
         {
-            cin>>v[i];
+            cout<<k-n<<"\n";
         }
-        vector<ll>dp(1005,1e9);
-        dp[0]=0;
-        FOR(i,0,n)
+        else
         {
-            vector<ll>cnt(1005,0);
-            FOR(j,i,n)
+            if((n+k)%2)
+                cout<<1<<"\n";
+            else
             {
-                cnt[v[j]]++;
-                int co=0;
-                FOR(k,1,101)
-                {
-                    co+=(cnt[k]==1)?0:cnt[k];
-                }
-                dp[j+1]=min(dp[i]+co+k,dp[j+1]);
+                cout<<0<<"\n";
             }
+            
         }
-        cout<<dp[n]<<"\n";
     }
     return 0;
 }

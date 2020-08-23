@@ -93,27 +93,41 @@ int main()
         ll n,k;
         cin>>n>>k;
         vector<ll>v(n,0);
+        bool poss=true;
         FOR(i,0,n)
         {
             cin>>v[i];
-        }
-        vector<ll>dp(1005,1e9);
-        dp[0]=0;
-        FOR(i,0,n)
-        {
-            vector<ll>cnt(1005,0);
-            FOR(j,i,n)
+            if(v[i]>k)
             {
-                cnt[v[j]]++;
-                int co=0;
-                FOR(k,1,101)
-                {
-                    co+=(cnt[k]==1)?0:cnt[k];
-                }
-                dp[j+1]=min(dp[i]+co+k,dp[j+1]);
+                poss=false;
             }
         }
-        cout<<dp[n]<<"\n";
+        if(!poss)
+        {
+            cout<<"-1\n";
+            continue;
+        }
+        ll cur=0;
+        ll i=0;
+        ll count=0;
+        while(i<n)
+        {
+            if(v[i]+cur>k)
+            {
+                count+=1;
+                cur=v[i];
+            }
+            else
+            {
+                cur+=v[i];
+            }
+            i+=1;
+        }
+        if(cur>0)
+        {
+            count+=1;
+        }
+        cout<<count<<"\n";
     }
     return 0;
 }

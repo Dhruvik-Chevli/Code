@@ -90,30 +90,27 @@ int main()
     cin>>t;
     while(t--)
     {
-        ll n,k;
-        cin>>n>>k;
-        vector<ll>v(n,0);
-        FOR(i,0,n)
+        ll n;
+        cin>>n;
+        vector<vector<ll> >graph(n,vector<ll>());
+        vector<ll>col(n,0);
+        FOR(i,0,n-1)
         {
-            cin>>v[i];
+            ll u,v;
+            cin>>u>>v;
+            u--;
+            v--;
+            graph[u].pb(v);
+            graph[v].pb(u);
         }
-        vector<ll>dp(1005,1e9);
-        dp[0]=0;
-        FOR(i,0,n)
+        string s;
+        cin>>s;
+        FOR(i,0,s.size())
         {
-            vector<ll>cnt(1005,0);
-            FOR(j,i,n)
-            {
-                cnt[v[j]]++;
-                int co=0;
-                FOR(k,1,101)
-                {
-                    co+=(cnt[k]==1)?0:cnt[k];
-                }
-                dp[j+1]=min(dp[i]+co+k,dp[j+1]);
-            }
+            if(s[i]=='0') col[i]=0;
+            else col[i]=1;
         }
-        cout<<dp[n]<<"\n";
+        
     }
     return 0;
 }

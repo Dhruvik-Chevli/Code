@@ -90,30 +90,45 @@ int main()
     cin>>t;
     while(t--)
     {
-        ll n,k;
-        cin>>n>>k;
-        vector<ll>v(n,0);
+        ll n;
+        cin>>n;
+        string s;
+        cin>>s;
+        stack<ll>s0;
+        stack<ll>s1;
+        ll count=0;
+        vector<ll>ans(n,0);
         FOR(i,0,n)
         {
-            cin>>v[i];
-        }
-        vector<ll>dp(1005,1e9);
-        dp[0]=0;
-        FOR(i,0,n)
-        {
-            vector<ll>cnt(1005,0);
-            FOR(j,i,n)
+            if(s[i]=='0')
             {
-                cnt[v[j]]++;
-                int co=0;
-                FOR(k,1,101)
+                if(s1.empty())
                 {
-                    co+=(cnt[k]==1)?0:cnt[k];
+                    count+=1;
+                    s1.push(count);
                 }
-                dp[j+1]=min(dp[i]+co+k,dp[j+1]);
+                ans[i]=s1.top();
+                s1.pop();
+                s0.push(ans[i]);
+            }
+            else
+            {
+                if(s0.empty())
+                {
+                    count+=1;
+                    s0.push(count);
+                }
+                ans[i]=s0.top();
+                s0.pop();
+                s1.push(ans[i]);
             }
         }
-        cout<<dp[n]<<"\n";
+        cout<<count<<"\n";
+        FOR(i,0,n)
+        {
+            cout<<ans[i]<<" ";
+        }
+        cout<<"\n";
     }
     return 0;
 }

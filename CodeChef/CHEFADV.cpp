@@ -90,30 +90,22 @@ int main()
     cin>>t;
     while(t--)
     {
-        ll n,k;
-        cin>>n>>k;
-        vector<ll>v(n,0);
-        FOR(i,0,n)
+        ll n,m,x,y;
+        cin>>n>>m>>x>>y;
+        n--;
+        m--;
+        if(n%x==0 and m%y==0)
         {
-            cin>>v[i];
+            cout<<"Chefirnemo\n";
         }
-        vector<ll>dp(1005,1e9);
-        dp[0]=0;
-        FOR(i,0,n)
+        else if((n-1)%x==0 and (m-1)%y==0 and n-1>=0 and m-1>=0)
         {
-            vector<ll>cnt(1005,0);
-            FOR(j,i,n)
-            {
-                cnt[v[j]]++;
-                int co=0;
-                FOR(k,1,101)
-                {
-                    co+=(cnt[k]==1)?0:cnt[k];
-                }
-                dp[j+1]=min(dp[i]+co+k,dp[j+1]);
-            }
+            cout<<"Chefirnemo\n";
         }
-        cout<<dp[n]<<"\n";
+        else
+        {
+            cout<<"Pofik\n";
+        }
     }
     return 0;
 }

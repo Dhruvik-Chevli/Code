@@ -90,30 +90,31 @@ int main()
     cin>>t;
     while(t--)
     {
-        ll n,k;
-        cin>>n>>k;
-        vector<ll>v(n,0);
+        ll n;
+        cin>>n;
+        vector<ll>a(n,0);
+        vector<ll>b(n,0);
+        ll mina=INT_MAX;
+        ll minb=INT_MAX;
         FOR(i,0,n)
         {
-            cin>>v[i];
+            cin>>a[i];
+            if(mina>a[i]) mina=a[i];
         }
-        vector<ll>dp(1005,1e9);
-        dp[0]=0;
         FOR(i,0,n)
         {
-            vector<ll>cnt(1005,0);
-            FOR(j,i,n)
-            {
-                cnt[v[j]]++;
-                int co=0;
-                FOR(k,1,101)
-                {
-                    co+=(cnt[k]==1)?0:cnt[k];
-                }
-                dp[j+1]=min(dp[i]+co+k,dp[j+1]);
-            }
+            cin>>b[i];
+            if(minb>b[i]) minb=b[i];
         }
-        cout<<dp[n]<<"\n";
+        ll count=0;
+        FOR(i,0,n)
+        {
+            ll xa=abs(a[i]-mina);
+            ll xb=abs(b[i]-minb);
+            count+=(max(xa,xb));
+            // cout<<count<<"\n";
+        }
+        cout<<count<<"\n";
     }
     return 0;
 }

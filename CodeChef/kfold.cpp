@@ -92,28 +92,56 @@ int main()
     {
         ll n,k;
         cin>>n>>k;
-        vector<ll>v(n,0);
+        string s;
+        cin>>s;
+        ll c0=0,c1=0;
         FOR(i,0,n)
         {
-            cin>>v[i];
-        }
-        vector<ll>dp(1005,1e9);
-        dp[0]=0;
-        FOR(i,0,n)
-        {
-            vector<ll>cnt(1005,0);
-            FOR(j,i,n)
+            if(s[i]=='0')
             {
-                cnt[v[j]]++;
-                int co=0;
-                FOR(k,1,101)
-                {
-                    co+=(cnt[k]==1)?0:cnt[k];
-                }
-                dp[j+1]=min(dp[i]+co+k,dp[j+1]);
+                c0+=1;
+            }
+            else
+            {
+                c1+=1;
             }
         }
-        cout<<dp[n]<<"\n";
+        ll seg=n/k;
+        if(c0%seg!=0 or c1%seg!=0)
+        {
+            cout<<"IMPOSSIBLE\n";
+            continue;
+        }
+        string ans="";
+        ll e0=c0/seg;
+        ll e1=c1/seg;
+        string temp="";
+        FOR(i,0,e0)
+        {
+            temp+='0';
+        }
+        FOR(i,0,e1)
+        {
+            temp+='1';
+        }
+        string rtemp="";
+        FOR(i,0,temp.size())
+        {
+            rtemp+=temp[temp.size()-i-1];
+        }
+        // cout<<temp<<"\n"<<rtemp<<"\n";
+        FOR(i,0,seg)
+        {
+            if(i%2==0)
+            {
+                ans+=temp;
+            }
+            else
+            {
+                ans+=rtemp;
+            }
+        }
+        cout<<ans<<"\n";
     }
     return 0;
 }

@@ -82,38 +82,67 @@ ll power(ll x,ll y,ll p)
     }
     return ans;
 }
+pair<ll,ll>bfs(ll start,ll n,vector<vector<ll> >&graph)
+{
+    vector<bool>visited(n,false);
+    vector<ll>dist(n,-1);
+    visited[start]=true;
+    dist[start]=0;
+    queue<ll>q;
+    q.push(start);
+    while(!q.empty())
+    {
+        ll k=q.front();
+        q.pop();
+        FOR(i,0,graph[k].size())
+        {
+            if(!visited[graph[k][i]])
+            {
+                visited[graph[k][i]]=true;
+                q.push(graph[k][i]);
+                dist[graph[k][i]]=dist[k]+1;
+            }
+        }
+    }
+    ll mi=-1;
+    ll d=INT_MIN;
+    FOR(i,0,n)
+    {
+        if(dist[i]>d)
+        {
+            mi=i;
+            d=dist[i];
+        }
+    }
+    return make_pair(d,mi);
+}
 int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ll t;
-    cin>>t;
-    while(t--)
+    ll n;
+    cin>>n;
+    vector<vector<ll> >graph(n,vector<ll>());
+    FOR(i,0,n-1)
     {
-        ll n,k;
-        cin>>n>>k;
-        vector<ll>v(n,0);
-        FOR(i,0,n)
-        {
-            cin>>v[i];
-        }
-        vector<ll>dp(1005,1e9);
-        dp[0]=0;
-        FOR(i,0,n)
-        {
-            vector<ll>cnt(1005,0);
-            FOR(j,i,n)
-            {
-                cnt[v[j]]++;
-                int co=0;
-                FOR(k,1,101)
-                {
-                    co+=(cnt[k]==1)?0:cnt[k];
-                }
-                dp[j+1]=min(dp[i]+co+k,dp[j+1]);
-            }
-        }
-        cout<<dp[n]<<"\n";
+        ll u,v;
+        cin>>u>>v;
+        u--;v--;
+        graph[u].pb(v);
+        graph[v].pb(u);
     }
+    pair<ll,ll>p=bfs(0,n,graph);
+    // cout<<p.first<<p.second<<"\n";
+    pair<ll,ll>k=bfs(p.second,n,graph);
+    FOR(i,0,n)
+    {
+        if(i==p.second or i==k.second)
+        {
+            cout<<k.first+1<<" ";
+        }
+        else
+            cout<<k.first<<" ";
+    }
+    cout<<"\n";
     return 0;
 }
